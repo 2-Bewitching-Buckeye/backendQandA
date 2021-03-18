@@ -37,3 +37,5 @@ CREATE TABLE photo (
   photo_url VARCHAR(300) NOT NULL,
   FOREIGN KEY (answer_id) REFERENCES answer(answer_id)
 );
+
+LOAD DATA LOCAL INFILE '/Users/pattop/Desktop/MainCourse/bBuckeye/backendQandA/cleanFiles/answers_clean.csv' INTO TABLE answer FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 LINES;
