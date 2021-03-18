@@ -38,4 +38,14 @@ CREATE TABLE photo (
   FOREIGN KEY (answer_id) REFERENCES answer(answer_id)
 );
 
-LOAD DATA LOCAL INFILE '/Users/pattop/Desktop/MainCourse/bBuckeye/backendQandA/cleanFiles/answers_clean.csv' INTO TABLE answer FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 LINES;
+--pager less -SFX
+
+--SET GLOBAL local_infile = true;
+
+-- LOAD DATA LOCAL INFILE '/Users/pattop/Desktop/MainCourse/bBuckeye/backendQandA/cleanFiles/answers_clean.csv' INTO TABLE answer FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 LINES;
+
+-- LOAD DATA LOCAL INFILE '/Users/pattop/Desktop/MainCourse/bBuckeye/backendQandA/cleanFiles/product_clean.csv' INTO TABLE product FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 LINES;
+
+-- LOAD DATA LOCAL INFILE '/Users/pattop/Desktop/MainCourse/bBuckeye/backendQandA/cleanFiles/questions_clean.csv' INTO TABLE question FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 LINES;
+
+-- LOAD DATA LOCAL INFILE '/Users/pattop/Desktop/MainCourse/bBuckeye/backendQandA/cleanFiles/answers_photos_clean.csv' INTO TABLE photo FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 LINES;
