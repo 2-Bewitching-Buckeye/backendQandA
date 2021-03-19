@@ -2,3 +2,4 @@ node_modules
 csvFiles
 cleanFiles
 flaggedFiles
+.DS_Store

@@ -19,8 +19,9 @@ app.use(express.json());
 
 //get requests
 app.get('/qa/questions', (req, res) => {
-  console.log(req.body)
-  db.query('SELECT * FROM question LIMIT 20', (err, results) => {
+  //requires product_id (from questions), page and count
+  var body = req.body
+  db.query(`SELECT * FROM question WHERE product_id=? LIMIT 20`, [body.product_id], (err, results) => {
     if (err) {
       console.log(err)
       res.sendStatus(400)
@@ -31,8 +32,8 @@ app.get('/qa/questions', (req, res) => {
   })
 })
 
-app.get('/qa/questions/:question_id/answers', (req, res) => {
-  res.send('Hello World!')
+app.get(`/qa/questions/:product_id/answers`, (req, res) => {
+  console.log(req)
 })
 
 //post requests
@@ -50,7 +51,7 @@ app.post('/qa/questions', (req, res) => {
 })
 
 app.post('/qa/questions/:question_id/answers', (req, res) => {
-  res.send('Hello World!')
+
 })
 
 //put requests:

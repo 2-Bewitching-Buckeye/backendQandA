@@ -7,6 +7,8 @@ const rl = readline.createInterface({
   crflDelay: Infinity
 })
 
+rl.flaggedFiles =  fs.createWriteStream('./flaggedFiles/product_flagged.csv');
+
 let count = 0;
 
 rl.on('line', (line) => {
@@ -14,7 +16,9 @@ rl.on('line', (line) => {
   //turn line into array of each column as an index
   var columns = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
 
-  if (isNaN(Number(columns[0]))) {return};
+  if (isNaN(Number(columns[0]))) {
+    rl.flaggedFiles.write(`${line}\n`);
+    return};
 
   rl.output.write(`${line}\n`);
   count++;
