@@ -1,25 +1,34 @@
 const express = require('express');
-const db = require('./mongoose.js');
-const mongoose = require('mongoose');
-const question = require('./mongoose.js');
+const mysql = require('mysql');
+const mysqlConfig = require('../db/config.js');
+
 const app = express();
 const port = 3000;
+const db = mysql.createConnection(mysqlConfig);
 
-const connection = mongoose.connection;
-
-mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true, useUnifiedTopology: true});
-
-connection.on('error', console.error.bind(console, 'connection error:'));
-connection.once("open", function() {
-  console.log("MongoDB database connection established successfully");
+db.connect(function(err) {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
+  } else {
+    console.log('I connected')
+  }
 });
-
 
 app.use(express.json());
 
 //get requests
 app.get('/qa/questions', (req, res) => {
-  res.send('Hello World!')
+  console.log(req.body)
+  db.query('SELECT * FROM question LIMIT 20', (err, results) => {
+    if (err) {
+      console.log(err)
+      res.sendStatus(400)
+    } else {
+      console.log(results)
+      res.send(results)
+    }
+  })
 })
 
 app.get('/qa/questions/:question_id/answers', (req, res) => {
@@ -28,7 +37,16 @@ app.get('/qa/questions/:question_id/answers', (req, res) => {
 
 //post requests
 app.post('/qa/questions', (req, res) => {
-  res.send('Hello World!')
+  console.log(req.body)
+  // db.query('INSERT INTO question () LIMIT 20', (err, results) => {
+  //   if (err) {
+  //     console.log(err)
+  //     res.sendStatus(400)
+  //   } else {
+  //     console.log(results)
+  //     res.send(results)
+  //   }
+  // })
 })
 
 app.post('/qa/questions/:question_id/answers', (req, res) => {
