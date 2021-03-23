@@ -133,18 +133,20 @@ app.get('/qa/questions', (req, res) => {
 
 app.get(`/qa/questions/:question_id/answers`, (req, res) => {
   var params = req.params
+  var query = req.query
+  console.log(query)
   var answerResult = {
     "question": params.question_id,
-    "page": params.page,
-    "count": params.count,
+    "page": query.page,
+    "count": query.count,
     "results": []
   }
-  db.query(`SELECT * FROM answer INNER JOIN photo ON photo.ans_id=answer.answer_id WHERE answer.quest_id=?`, [params.question_id, params.page, params.count], (err, results) => {
+  db.query(`SELECT * FROM answer INNER JOIN photo ON photo.ans_id=answer.answer_id WHERE answer.quest_id=?`, [params.question_id, query.page, query.count], (err, results) => {
     if (err) {
       console.log(err)
       res.sendStatus(400)
     } else {
-      console.log(results)
+
       var answerID;
       var photoID;
       var answerCount = -1;
@@ -174,14 +176,14 @@ app.get(`/qa/questions/:question_id/answers`, (req, res) => {
 //post requests
 app.post('/qa/questions', (req, res) => {
   const body = req.body
-  const params = req.query
+  console.log(body)
   db.query('INSERT INTO question (prod_id, question_body, asker_name, asker_email) VALUES (?, ?, ?, ?)', [body.product_id, body.question_body, body.asker_name, body.asker_email], (err, results) => {
     if (err) {
       console.log(err)
       res.sendStatus(400)
     } else {
       console.log(results)
-      res.sendStatus(200).send(results.insertId)
+      res.sendStatus(200)
       // db.query(`SELECT * FROM question WHERE question_id=?`, [results.insertId], (err, results) => {
       //   if (err) {
       //     console.log(err)
@@ -210,6 +212,7 @@ app.post('/qa/questions/:question_id/answers', (req, res) => {
             console.log(err),
             res.sendStatus(400)
           } else {
+            console.log(results)
             res.sendStatus(200)
           }
         })
@@ -245,13 +248,11 @@ app.put('/qa/questions/:question_id/report', (req, res) => {
 
 app.put('/qa/questions/:question_id/helpful', (req, res) => {
   var params = req.params
-  console.log(params)
   db.query(`UPDATE question SET question_helpfulness = question_helpfulness + 1 WHERE question_id=?`, [params.question_id], (err, results) => {
     if (err) {
       console.log(err)
       res.sendStatus(400)
     } else {
-      console.log(results)
       res.sendStatus(200)
     }
   })
@@ -265,7 +266,7 @@ app.put('/qa/answers/:answer_id/helpful', (req, res) => {
       console.log(err)
       res.sendStatus(400)
     } else {
-      console.log(results)
+
       res.sendStatus(200)
     }
   })
@@ -278,7 +279,7 @@ app.put('/qa/answers/:answer_id/report', (req, res) => {
       console.log(err)
       res.sendStatus(400)
     } else {
-      console.log(results)
+
       res.sendStatus(200)
     }
   })
