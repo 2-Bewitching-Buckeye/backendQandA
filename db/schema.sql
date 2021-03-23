@@ -9,34 +9,40 @@ CREATE TABLE product (
 
 CREATE TABLE question (
   question_id INT NOT NULL UNIQUE PRIMARY KEY AUTO_INCREMENT,
-  product_id INT NOT NULL,
-  body TEXT(1000) NOT NULL,
-  date_written VARCHAR(100) NOT NULL,
+  prod_id INT NOT NULL,
+  question_body TEXT(1000) NOT NULL,
+  question_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   asker_name VARCHAR(100) NOT NULL,
   asker_email VARCHAR(100) NOT NULL,
-  reported BOOLEAN DEFAULT 0,
-  helpful INT NOT NULL,
-  FOREIGN KEY (product_id) REFERENCES product(product_id)
+  question_reported BOOLEAN DEFAULT 0,
+  question_helpfulness SMALLINT UNSIGNED DEFAULT 0,
+  FOREIGN KEY (prod_id) REFERENCES product(product_id)
 );
+
+CREATE INDEX prod_id ON question (prod_id);
 
 CREATE TABLE answer (
   answer_id INT NOT NULL UNIQUE PRIMARY KEY AUTO_INCREMENT,
-  question_id INT NOT NULL,
+  quest_id INT NOT NULL,
   body TEXT(1000) NOT NULL,
-  date_written VARCHAR(100) NOT NULL,
+  answer_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   answerer_name VARCHAR(100) NOT NULL,
   answerer_email VARCHAR(100) NOT NULL,
-  reported BOOLEAN DEFAULT 0,
-  helpful INT NOT NULL,
-  FOREIGN KEY (question_id) REFERENCES question(question_id)
+  answer_reported BOOLEAN DEFAULT 0,
+  answer_helpfulness SMALLINT UNSIGNED DEFAULT 0,
+  FOREIGN KEY (quest_id) REFERENCES question(question_id)
 );
+
+CREATE INDEX quest_id ON answer (quest_id);
 
 CREATE TABLE photo (
   photo_id INT NOT NULL UNIQUE PRIMARY KEY AUTO_INCREMENT,
-  answer_id INT NOT NULL,
+  ans_id INT NOT NULL,
   photo_url VARCHAR(300) NOT NULL,
-  FOREIGN KEY (answer_id) REFERENCES answer(answer_id)
+  FOREIGN KEY (ans_id) REFERENCES answer(answer_id)
 );
+
+CREATE INDEX ans_id ON photo (ans_id);
 
 --pager less -SFX
 
