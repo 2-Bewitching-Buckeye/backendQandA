@@ -1,10 +1,20 @@
 const express = require('express');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const mysqlConfig = require('../db/config.js');
 
 const app = express();
 const port = 3000;
 const db = mysql.createConnection(mysqlConfig);
+
+
+db.connect(function(err) {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
+  } else {
+    console.log('I connected')
+  }
+});
 
 //reusable question format
 const questionObj = (question) => {
@@ -44,15 +54,6 @@ const photoObj = (photo) => {
     "url": photo_url
   }
 };
-
-db.connect(function(err) {
-  if (err) {
-    console.error('error connecting: ' + err.stack);
-    return;
-  } else {
-    console.log('I connected')
-  }
-});
 
 app.use(express.json());
 
@@ -287,5 +288,5 @@ app.put('/qa/answers/:answer_id/report', (req, res) => {
 
 //port listen:
 app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`)
+  console.log(`Listening at port:${port}`)
 })

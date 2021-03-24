@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  server:
+    build: .
+    depends_on:
+       'database':
+        condition: service_healthy
+    ports:
+      - '3000:3000'
+
+  database:
+    image: mysql:8.0.23
+    restart: always
+    expose:
+      - "3306"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: 'questionsAndAnswers'
+      MYSQL_ROOT_PASSWORD: 'password'
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    volumes:
+      - ./cleanFiles

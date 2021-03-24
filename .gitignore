@@ -3,3 +3,4 @@ csvFiles
 cleanFiles
 flaggedFiles
 .DS_Store
+*.pem
